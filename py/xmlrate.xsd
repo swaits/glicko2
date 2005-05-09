@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:simpleType name="ratingtype">
+    <xs:restriction base="xs:decimal">
+        <xs:minInclusive value="100.0"/>
+        <xs:maxInclusive value="4000.0"/>
+    </xs:restriction>
+</xs:simpleType>
+  
+<xs:simpleType name="deviationtype">
+    <xs:restriction base="xs:decimal">
+        <xs:minInclusive value="0.0"/>
+        <xs:maxInclusive value="700.0"/>
+    </xs:restriction>
+</xs:simpleType>
+  
+<xs:simpleType name="volatilitytype">
+    <xs:restriction base="xs:decimal">
+        <xs:minInclusive value="0.0"/>
+        <xs:maxInclusive value="10.0"/>
+    </xs:restriction>
+</xs:simpleType>
+  
+<xs:simpleType name="nametype">
+    <xs:restriction base="xs:string">
+        <xs:whiteSpace value="collapse"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="commenttype">
+    <xs:restriction base="xs:string">
+        <xs:whiteSpace value="preserve"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:simpleType name="resulttype">
+    <xs:restriction base ="xs:string">
+        <xs:enumeration value="win"/>
+        <xs:enumeration value="loss"/>
+        <xs:enumeration value="draw"/>
+    </xs:restriction>
+</xs:simpleType>
+
+<xs:complexType name="racetype">
+    <xs:choice>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="competitor" type="nametype"/>
+    </xs:choice>
+</xs:complexType>
+
+<xs:complexType name="gametype">
+    <xs:all>
+        <xs:element minOccurs="1" name="home" type="nametype"/>
+        <xs:element minOccurs="1" name="away" type="nametype"/>
+        <xs:element minOccurs="1" name="result" type="resulttype"/>
+        <xs:element minOccurs="0" name="comment" type="commenttype"/>        
+    </xs:all>
+</xs:complexType>
+
+<xs:complexType name="periodtype">
+    <xs:choice>
+        <xs:element maxOccurs="unbounded" name="game" type="gametype"/>
+        <xs:element maxOccurs="unbounded" name="race" type="racetype"/>
+    </xs:choice>
+</xs:complexType>
+
+<xs:complexType name="teamtype">
+    <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" name="name" type="nametype"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="member" type="nametype"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="playertype">
+    <xs:all>
+        <xs:element minOccurs="1" name="name" type="nametype"/>
+        <xs:element minOccurs="0" name="rating" type="ratingtype"/>
+        <xs:element minOccurs="0" name="deviation" type="deviationtype"/>
+        <xs:element minOccurs="0" name="volatility" type="volatilitytype"/>
+    </xs:all>
+</xs:complexType>
+
+<xs:complexType name="ratingdoctype">
+    <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="player" type="playertype"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="team" type="teamtype"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="period" type="periodtype"/>
+    </xs:sequence>
+</xs:complexType>
+
+<xs:element name="ratingdoc" type="ratingdoctype"/>
+
+</xs:schema>

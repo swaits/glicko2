@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ratingdoc xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.waits.net/XML/xmlrate.xsd">
+
+
+    <player>
+        <name>A</name>
+        <rating>1500</rating>
+        <deviation>200</deviation>
+        <volatility>0.06</volatility>
+    </player>
+
+    <player>
+        <name>B</name>
+        <rating>1400</rating>
+        <deviation>30</deviation>
+        <volatility>0.06</volatility>
+    </player>
+
+    <player>
+        <name>C</name>
+        <rating>1550</rating>
+        <deviation>100</deviation>
+        <volatility>0.06</volatility>
+    </player>
+
+    <player>
+        <name>D</name>
+        <rating>1700</rating>
+        <deviation>300</deviation>
+        <volatility>0.06</volatility>
+    </player>
+
+
+    <period>
+        <game>
+            <home>A</home>
+            <away>B</away>
+            <result>win</result>
+        </game>
+
+        <game>
+            <home>A</home>
+            <away>C</away>
+            <result>loss</result>
+        </game>
+
+        <game>
+            <home>A</home>
+            <away>D</away>
+            <result>loss</result>
+        </game>
+    </period>
+
+</ratingdoc>
+
