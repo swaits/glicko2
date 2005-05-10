@@ -89,7 +89,7 @@
 	</player>
 
 	<player>
-		<name>puck heads</name>
+		<name>puckheads</name>
 	</player>
 
 	<player>
@@ -455,7 +455,7 @@
 		</game>
 		<game>
 			<home>blackhawks</home>
-			<away>puck heads</away>
+			<away>puckheads</away>
 			<result>win</result>
 		</game>
 		<game>
@@ -495,6 +495,35 @@
         <game>
             <home>spitfires</home>
             <away>blackouts</away>
+            <result>win</result>
+        </game>
+    </period>
+
+    <!-- wed 5/11 -->
+    <period>
+        <game>
+            <home>velocity</home>
+            <away>shockers</away>
+            <result>win</result>
+        </game>
+        <game>
+            <home>who's your daddy</home>
+            <away>demons</away>
+            <result>win</result>
+        </game>
+        <game>
+            <home>ballistic</home>
+            <away>puckheads</away>
+            <result>win</result>
+        </game>
+        <game>
+            <home>section 8</home>
+            <away>blackhawks</away>
+            <result>loss</result>
+        </game>
+        <game>
+            <home>spitfires</home>
+            <away>tiger sharks</away>
             <result>win</result>
         </game>
     </period>
