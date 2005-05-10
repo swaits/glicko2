@@ -214,17 +214,3 @@ class Glicko2
 		end
 end
 
-
-A = Glicko2.new(1500.0, 200.0, 0.06)
-B = Glicko2.new(1400.0,  30.0, 0.06)
-C = Glicko2.new(1550.0, 100.0, 0.06)
-D = Glicko2.new(1700.0, 300.0, 0.06)
-
-A.add_win(B)
-A.add_loss(C)
-A.add_result(D,0.0)
-
-A.update()
-
-print "rating ", A.rating, " deviation ", A.deviation
-
