@@ -1,5 +1,6 @@
 
 require "rexml/document"
+require "glicko2"
 
 file = File.new( "../py/data/hockey-2005.xml" )
 
@@ -7,6 +8,8 @@ doc = REXML::Document.new(file)
 
 # each rating doc
 doc.elements.each("ratingdoc") do |root|
+
+	players = Hash.new
 
 	# each player
 	root.elements.each("player") do |player|
@@ -27,6 +30,7 @@ doc.elements.each("ratingdoc") do |root|
 			variance = player.elements["variance"].text
 		end
 
+		players[name] = Glicko2.new(rating.to_f,deviation.to_f,variance.to_f)
 		puts name,rating,deviation,variance
 		puts
 
@@ -37,10 +41,13 @@ doc.elements.each("ratingdoc") do |root|
 
 		# each regular game
 		period.elements.each("game") do |game|
-			puts "home",game.elements["home"].text
-			puts "away",game.elements["away"].text
-			puts "result",game.elements["result"].text
-			puts
+		
+			home = game.elements["home"].text
+			away = game.elements["away"].text
+			result = game.elements["result"].text
+			
+			players[home].add_result( players[away], result.to_f )
+			players[away].add_result( players[home], 1.0 - result.to_f )
 		end
 
 		# each race
@@ -50,6 +57,10 @@ doc.elements.each("ratingdoc") do |root|
 			end
 			puts
 		end
+
+		# update all players
+		players.each_value { |p| p.update }
+		players.each { |p,r| puts p,r.rating }
 
 	end
 
