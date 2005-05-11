@@ -22,6 +22,12 @@ class TestGlicko2 < Test::Unit::TestCase
 		
 		assert_in_delta(1464.05,a.rating,0.01)
 		assert_in_delta(151.516,a.deviation,0.01)
+
+		a.update()
+		
+		assert_in_delta(1464.05,a.rating,0.01)
+		assert_in_delta(151.516,a.deviation,0.01)
+
 	end
 	
 end
