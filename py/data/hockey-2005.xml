@@ -528,5 +528,27 @@
         </game>
     </period>
 
+    <!-- mon, 5/9 (playoffs round 2) -->
+    <period>
+        <game>
+            <home>coaches team</home>
+            <away>spitfires</away>
+            <result>loss</result>
+        </game>
+        <game>
+            <home>penguins</home>
+            <away>space monkeys</away>
+            <result>loss</result>
+        </game>
+    </period>
+    <!-- mon, 5/9 (playoffs finals) -->
+    <period>
+        <game>
+            <home>spitfires</home>
+            <away>space monkeys</away>
+            <result>win</result>
+        </game>
+    </period>
+
 </ratingdoc>
 
