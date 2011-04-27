@@ -33,33 +33,33 @@
 
 class Glicko2_impl
 {
-public:
+	public:
 
-	// constructors
-	Glicko2_impl();
-	Glicko2_impl(const Glicko2_impl& rhs);
+		// constructors
+		Glicko2_impl();
+		Glicko2_impl(const Glicko2_impl& rhs);
 
-	// copy assignment
-	Glicko2_impl& operator=(const Glicko2_impl& rhs);
+		// copy assignment
+		Glicko2_impl& operator=(const Glicko2_impl& rhs);
 
-	// destructor
-	virtual ~Glicko2_impl();
+		// destructor
+		virtual ~Glicko2_impl();
 
-	// system constants
-	static const double dvolatility;
+		// system constants
+		static const double dvolatility;
 
-	// rating data
-	double rating;
-	double deviation;
-	double volatility;
+		// rating data
+		double rating;
+		double deviation;
+		double volatility;
 
-	// result data (copy of each opponent and results, 0.0, 0.5, or 1.0)
-	std::vector<Glicko2> opponents;
-	std::vector<double>  results;
+		// result data (copy of each opponent and results, 0.0, 0.5, or 1.0)
+		std::vector<Glicko2> opponents;
+		std::vector<double>  results;
 
-	// utility functions
-	double g(const double& deviation);
-	double E(const double& rating, const double& rating_opponent, const double& deviation_opponent);
+		// utility functions
+		double g(const double& deviation);
+		double E(const double& rating, const double& rating_opponent, const double& deviation_opponent);
 };
 
 
@@ -116,7 +116,7 @@ Glicko2_impl::~Glicko2_impl()
 
 double Glicko2_impl::g(const double& deviation)
 {
-	#define PI_SQUARED (9.86960440108935861883)
+#define PI_SQUARED (9.86960440108935861883)
 	return 1.0 / (sqrt(1.0 + 3.0 * deviation * deviation / PI_SQUARED));
 }
 

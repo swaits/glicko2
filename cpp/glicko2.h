@@ -47,195 +47,195 @@ class Glicko2_impl;
  */
 class Glicko2
 {
-public:
+	public:
 
 
-
-	/**
-	 * Enumeration of possible results.
-	 */
-	enum RESULT
-	{
-		/**
-		 * A win result, internally 1.0.
-		 */
-		WIN,
 
 		/**
-		 * A loss result, internally 0.0.
+		 * Enumeration of possible results.
 		 */
-		LOSS,
+		enum RESULT
+		{
+			/**
+			 * A win result, internally 1.0.
+			 */
+			WIN,
+
+			/**
+			 * A loss result, internally 0.0.
+			 */
+			LOSS,
+
+			/**
+			 * A draw result, internally 0.5.
+			 */
+			DRAW
+		};
+
+
 
 		/**
-		 * A draw result, internally 0.5.
+		 * Default constructor.  Initializes to a rating of 1500, a rating deviation 
+		 * of 350, and a volatility of 0.06.
 		 */
-		DRAW
-	};
+		Glicko2();
+
+		/**
+		 * Copy constructor.
+		 * 
+		 * @param rhs    Object to copy.
+		 */
+		Glicko2(const Glicko2& rhs);
+
+		/**
+		 * Constructor with rating, rating deviation, and volatility specified.
+		 * 
+		 * @param rating     Initial rating.
+		 * @param deviation  Initial rating deviation.
+		 * @param volatility Initial volatility.
+		 */
+		Glicko2(double rating, double deviation, double volatility);
 
 
 
-	/**
-	 * Default constructor.  Initializes to a rating of 1500, a rating deviation 
-	 * of 350, and a volatility of 0.06.
-	 */
-	Glicko2();
-
-	/**
-	 * Copy constructor.
-	 * 
-	 * @param rhs    Object to copy.
-	 */
-	Glicko2(const Glicko2& rhs);
-
-	/**
-	 * Constructor with rating, rating deviation, and volatility specified.
-	 * 
-	 * @param rating     Initial rating.
-	 * @param deviation  Initial rating deviation.
-	 * @param volatility Initial volatility.
-	 */
-	Glicko2(double rating, double deviation, double volatility);
+		/**
+		 * Copy assignment operator.
+		 * 
+		 * @param rhs    Object to copy.
+		 * 
+		 * @return Reference to self after copy assignment.
+		 */
+		Glicko2& operator=(const Glicko2& rhs);
 
 
 
-	/**
-	 * Copy assignment operator.
-	 * 
-	 * @param rhs    Object to copy.
-	 * 
-	 * @return Reference to self after copy assignment.
-	 */
-	Glicko2& operator=(const Glicko2& rhs);
+		/**
+		 * Destructor.
+		 */
+		virtual ~Glicko2();
 
 
 
-	/**
-	 * Destructor.
-	 */
-	virtual ~Glicko2();
+		/**
+		 * Less than comparison operator.
+		 * 
+		 * @param rhs   Object to compare against.
+		 * 
+		 * @return true if this object's rating is less than rhs's rating; false otherwise.
+		 */
+		bool operator< (const Glicko2& rhs);
 
 
 
-	/**
-	 * Less than comparison operator.
-	 * 
-	 * @param rhs    Object to compare against.
-	 * 
-	 * @return true if this object's rating is less than rhs's rating; false otherwise.
-	 */
-	bool operator< (const Glicko2& rhs);
+		/**
+		 * Get the current rating. This rating is a Glicko rating, not a Glicko2 rating.
+		 * For details, please see http://www.glicko.com/
+		 * 
+		 * @return 
+		 */
+		double GetRating() const;
+
+		/**
+		 * Get the current rating deviation. This is a Glicko rating deviation, not a 
+		 * Glicko-2 RD.  For details, please see http://www.glicko.com/
+		 * 
+		 * @return 
+		 */
+		double GetDeviation() const;
+
+		/**
+		 * Get the current rating volatility.
+		 * 
+		 * @return 
+		 */
+		double GetVolatility() const;
 
 
 
-	/**
-	 * Get the current rating.  This rating is a Glicko rating, not a Glicko2 rating.
-	 * For details, please see http://www.glicko.com/
-	 * 
-	 * @return 
-	 */
-	double GetRating() const;
+		/**
+		 * Set Glicko rating.  Internally this is converted to a Glicko2 rating.
+		 * For details, please see http://www.glicko.com/
+		 * 
+		 * @param rating Rating.
+		 */
+		void SetRating(double rating);
 
-	/**
-	 * Get the current rating deviation.  This is a Glicko rating deviation, not a 
-	 * Glicko-2 RD.  For details, please see http://www.glicko.com/
-	 * 
-	 * @return 
-	 */
-	double GetDeviation() const;
+		/**
+		 * Set Glicko rating deviation.  Internally this is converted to a Glicko-2 RD.
+		 * For details, please see http://www.glicko.com/
+		 * 
+		 * @param deviation Rating deviation.
+		 */
+		void SetDeviation(double deviation);
 
-	/**
-	 * Get the current rating volatility.
-	 * 
-	 * @return 
-	 */
-	double GetVolatility() const;
-
-
-
-	/**
-	 * Set Glicko rating.  Internally this is converted to a Glicko2 rating.
-	 * For details, please see http://www.glicko.com/
-	 * 
-	 * @param rating Rating.
-	 */
-	void SetRating(double rating);
-
-	/**
-	 * Set Glicko rating deviation.  Internally this is converted to a Glicko-2 RD.
-	 * For details, please see http://www.glicko.com/
-	 * 
-	 * @param deviation Rating deviation.
-	 */
-	void SetDeviation(double deviation);
-
-	/**
-	 * Set rating volatility.
-	 * 
-	 * @param volatility Rating volatility.
-	 */
-	void SetVolatility(double volatility);
+		/**
+		 * Set rating volatility.
+		 * 
+		 * @param volatility Rating volatility.
+		 */
+		void SetVolatility(double volatility);
 
 
 
-	/**
-	 * Clear all results previously added via AddResult(), AddWin(), AddLoss(),
-	 * and/or AddDraw().  This method is called automatically whenever Update()
-	 * is called.
-	 */
-	void ClearResults();
+		/**
+		 * Clear all results previously added via AddResult(), AddWin(), AddLoss(),
+		 * and/or AddDraw(). This method is called automatically whenever Update()
+		 * is called.
+		 */
+		void ClearResults();
 
 
 
-	/**
-	 * Add a result to this rating.  Note that no calculation is performed until
-	 * Update() is called.
-	 * 
-	 * @param opponent Other player in contest.
-	 * @param result   WIN, LOSS, or DRAW; from the point of view of this player.
-	 */
-	void AddResult(const Glicko2& opponent, RESULT result);
+		/**
+		 * Add a result to this rating.  Note that no calculation is performed until
+		 * Update() is called.
+		 * 
+		 * @param opponent Other player in contest.
+		 * @param result   WIN, LOSS, or DRAW; from the point of view of this player.
+		 */
+		void AddResult(const Glicko2& opponent, RESULT result);
 
 
 
-	/**
-	 * Add a win result to this rating.  Note that no calculation is performed until
-	 * Update() is called.
-	 * 
-	 * @param opponent Other (losing) player in contest.
-	 */
-	void AddWin(const Glicko2& opponent);
+		/**
+		 * Add a win result to this rating.  Note that no calculation is performed until
+		 * Update() is called.
+		 * 
+		 * @param opponent Other (losing) player in contest.
+		 */
+		void AddWin(const Glicko2& opponent);
 
-	/**
-	 * Add a loss result to this rating.  Note that no calculation is performed until
-	 * Update() is called.
-	 * 
-	 * @param opponent Other (winning) player in contest.
-	 */
-	void AddLoss(const Glicko2& opponent);
+		/**
+		 * Add a loss result to this rating. Note that no calculation is performed until
+		 * Update() is called.
+		 * 
+		 * @param opponent Other (winning) player in contest.
+		 */
+		void AddLoss(const Glicko2& opponent);
 
-	/**
-	 * Add a draw result to this rating.  Note that no calculation is performed until
-	 * Update() is called.
-	 * 
-	 * @param opponent Other (drawing) player in contest.
-	 */
-	void AddDraw(const Glicko2& opponent);
-
-
-
-	/**
-	 * Update rating based on current results list, and clear results.
-	 */
-	void Update();
+		/**
+		 * Add a draw result to this rating. Note that no calculation is performed until
+		 * Update() is called.
+		 * 
+		 * @param opponent Other (drawing) player in contest.
+		 */
+		void AddDraw(const Glicko2& opponent);
 
 
 
-private:
+		/**
+		 * Update rating based on current results list, and clear results.
+		 */
+		void Update();
 
-	/**
-	 * Private Implementation.
-	 */
-	Glicko2_impl* pimpl;
+
+
+	private:
+
+		/**
+		 * Private Implementation.
+		 */
+		Glicko2_impl* pimpl;
 
 };
 

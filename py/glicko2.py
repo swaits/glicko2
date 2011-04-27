@@ -30,14 +30,14 @@ import copy
 class Glicko2:
     """
     Glicko-2 Rating calculator class.
-    
+
     This class implements the Glicko-2 rating system algorithm written by 
     Professor Mark E. Glickman.  All rating inputs and outputs are Glicko ratings,
     but internally everything is converted to and considered Glicko-2 ratings.
-    
+
     Glicko-2 is an improvement on the original Glicko, which was, in turn, an
     improvement on the ELO system.
-    
+
     The Glicko-2 system is specified on http://www.glicko.com/
     """
 
@@ -229,12 +229,12 @@ if __name__ == "__main__":
     B = Glicko2(1400.0,  30.0, 0.06)
     C = Glicko2(1550.0, 100.0, 0.06)
     D = Glicko2(1700.0, 300.0, 0.06)
-    
+
     A.AddWin(B)
     A.AddLoss(C)
     A.AddResult(D,Glicko2.LOSS)
-    
+
     A.Update();
-    
+
     print "rating",A.GetRating(), "deviation",A.GetDeviation()
 
