@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -w
 
 #
 #
@@ -136,22 +136,23 @@ class Glicko2
     add_result(opponent,Glicko2::DRAW)
   end
 
+  # util func
+  def Glicko2.g(deviation)
+    1.0 / (Math.sqrt(1.0 + 3.0 * deviation ** 2.0 / (Math::PI ** 2.0)))
+  end
+
+  # util func
+  def Glicko2.E(rating, rating_opponent, deviation_opponent)
+    1.0 / (1.0 + Math.exp(-Glicko2.g(deviation_opponent)*(rating - rating_opponent)));
+  end
+
   # Update rating based on current results list, and clear results.
   def update
 
-    # util func
-    def Glicko2.g(deviation)
-      1.0 / (Math.sqrt(1.0 + 3.0 * deviation ** 2.0 / (Math::PI ** 2.0)))
-    end
-
-    # util func
-    def Glicko2.E(rating, rating_opponent, deviation_opponent)
-      1.0 / (1.0 + Math.exp(-Glicko2.g(deviation_opponent)*(rating - rating_opponent)));
-    end
-
     # bail if no opponents set
     if @results.empty?
-      return nil
+      @g2deviation = Math.sqrt(@g2deviation**2.0 + @g2volatility**2.0)
+      return
     end
 
     # compute variance
