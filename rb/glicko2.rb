@@ -108,8 +108,8 @@ class Glicko2
   # and/or add_draw().  This method is called automatically whenever update()
   # is called.
   def clear_results
-    @opponents = []
-    @results = []
+    @opponents = Array.new
+    @results   = Array.new
   end
 
   # Add a result to this rating.  Note that no calculation is performed until
@@ -156,35 +156,23 @@ class Glicko2
     end
 
     # compute variance
-
-    #variance = 0.0
-    #@results.inject(0.0) do |variance,r|
-    # g_i = Glicko2.g(r.opponent.g2deviation)
-    # e_i = Glicko2.E(@g2rating,r.opponent.g2rating,r.opponent.g2deviation)
-    # g_i ** 2.0 * e_i * (1.0 - e_i)
-    #end
-
-    variance = 0.0
-    @results.each do |r|
+    variance = 1.0 / @results.inject(0.0) do |sum,r|
       g_i = Glicko2.g(r.opponent.g2deviation)
-      e_i = Glicko2.E(@g2rating,r.opponent.g2rating,r.opponent.g2deviation)
-      variance += g_i ** 2.0 * e_i * (1.0 - e_i)
+      e_i = Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation)
+      sum + g_i**2.0 * e_i * (1.0 - e_i)
     end
-    variance = 1.0 / variance
 
     # compute delta
-    delta = 0.0
-    @results.each do |r|
-      delta += Glicko2.g(r.opponent.g2deviation) * (r.result - Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation))
+    delta = variance * @results.inject(0.0) do |sum,r|
+      sum + Glicko2.g(r.opponent.g2deviation) * (r.result - Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation))
     end
-    delta *= variance
 
     # determine new volatility
     new_volatility = 0.0
-    a              = Math.log( @g2volatility**2.0 )
+    a              = Math.log(@g2volatility**2.0)
     x              = 0.0
     x_new          = a
-    while ( (x - x_new).abs > 0.0000001 )
+    while ((x - x_new).abs > 0.0000001)
       x     = x_new
       d     = @g2deviation**2.0 + variance + Math.exp(x)
       h1    = -(x - a)/(@dvolatility**2.0) - 0.5*Math.exp(x)/d + 0.5*Math.exp(x)*(delta/d)*(delta/d)
@@ -194,16 +182,13 @@ class Glicko2
     new_volatility = Math.exp(x_new / 2.0)
 
     # update the rating deviation to the new pre-rating period value
-    pre_deviation = Math.sqrt( @g2deviation**2.0 + new_volatility**2.0 )
+    pre_deviation = Math.sqrt(@g2deviation**2.0 + new_volatility**2.0)
 
     # update the rating and deviation
-    new_deviation = 1.0 / (Math.sqrt( 1.0/(pre_deviation**2.0) + 1.0 / variance))
-    new_rating    = 0.0
-    @results.each do |r|
-      new_rating += Glicko2.g(r.opponent.g2deviation) * (r.result - Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation))
+    new_deviation = 1.0 / (Math.sqrt(1.0/(pre_deviation**2.0) + 1.0 / variance))
+    new_rating    = @g2rating + new_deviation**2.0 * @results.inject(0.0) do |sum,r|
+      sum + Glicko2.g(r.opponent.g2deviation) * (r.result - Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation))
     end
-    new_rating  = new_rating * new_deviation**2.0
-    new_rating += @g2rating
 
     # wipe our result lists
     clear_results
