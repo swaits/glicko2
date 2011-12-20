@@ -183,11 +183,13 @@ class Glicko2
       sum + g_i**2.0 * e_i * (1.0 - e_i)
     end
 
-    # Step 4. Compute the quantity delta, the estimated improvement in rating
+    # Step 4. Compute the quantity 'delta', the estimated improvement in rating
     # by comparing the pre-period rating to the performance rating based only
     # on game outcomes.
     delta = variance * @results.inject(0.0) do |sum,r|
-      sum + Glicko2.g(r.opponent.g2deviation) * (r.result - Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation))
+      g_i = Glicko2.g(r.opponent.g2deviation)
+      e_i = Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation)
+      sum + g_i * (r.result - e_i)
     end
 
     # Step 5. Determine the new value of the volatility.
