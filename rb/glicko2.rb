@@ -191,16 +191,16 @@ class Glicko2
     end
 
     # Step 5. Determine the new value of the volatility.
-    a     = Math.log(@g2volatility**2.0)
-    x0, x = 0.0, a
-    while ((x0 - x).abs > 0.0000001)
-      x0 = x
+    a      = Math.log(@g2volatility**2.0)
+    x0, x1 = 0.0, a
+    while ((x0 - x1).abs > 0.0000001)
+      x0 = x1
       d  = @g2deviation**2.0 + variance + Math.exp(x0)
       h1 = -(x0 - a)/(DVOL**2.0) - 0.5*Math.exp(x0)/d + 0.5*Math.exp(x0)*(delta/d)*(delta/d)
       h2 = -1.0/(DVOL**2.0) - 0.5*Math.exp(x0)*(@g2deviation**2.0+variance)/(d**2.0) + 0.5*(delta**2.0)*Math.exp(x0)*((@g2deviation**2.0) + variance - Math.exp(x0))/(d**3.0)
-      x  = x0 - h1/h2
+      x1 = x0 - h1/h2
     end
-    new_volatility = Math.exp(x / 2.0)
+    new_volatility = Math.exp(x1 / 2.0)
 
     # Step 6. Update the rating deviation to the new pre-rating period value.
     pre_deviation = Math.sqrt(@g2deviation**2.0 + new_volatility**2.0)
@@ -208,7 +208,9 @@ class Glicko2
     # Step 7. Update the rating and RD to the new values.
     new_deviation = 1.0 / (Math.sqrt(1.0/(pre_deviation**2.0) + 1.0 / variance))
     new_rating    = @g2rating + new_deviation**2.0 * @results.inject(0.0) do |sum,r|
-      sum + Glicko2.g(r.opponent.g2deviation) * (r.result - Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation))
+      g_i = Glicko2.g(r.opponent.g2deviation)
+      e_i = Glicko2.E(@g2rating, r.opponent.g2rating, r.opponent.g2deviation)
+      sum + g_i * (r.result - e_i)
     end
 
     # Step 8. Convert ratings and RD's back to original scale.
