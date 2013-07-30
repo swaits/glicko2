@@ -1,6 +1,6 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env ruby -w
 
-require 'glicko2'
+require_relative 'glicko2'
 require 'test/unit'
 
 class TestGlicko2 < Test::Unit::TestCase
@@ -26,7 +26,7 @@ class TestGlicko2 < Test::Unit::TestCase
 		a.update()
 		
 		assert_in_delta(1464.05,a.rating,0.01)
-		assert_in_delta(151.516,a.deviation,0.01)
+		assert_in_delta(151.875,a.deviation,0.01)
 
 	end
 	
